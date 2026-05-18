@@ -18,26 +18,84 @@ export default function Comment({ comment, onDelete }: CommentProps) {
   const { user, isAdmin } = useAuth();
 
   return (
-    <Box sx={{ display: 'flex', gap: 1, p: 1.5, mb: 1, backgroundColor: 'rgba(255,255,255,0.02)', border: '1px solid #2d2d2d', borderRadius: 2 }}>
+    <Box
+      sx={{
+        display: 'flex',
+        gap: 1,
+        p: { xs: 1, sm: 1.5 },
+        mb: 1,
+        backgroundColor: '#0f172a',
+        border: '1px solid #334155',
+        borderRadius: '8px',
+        transition: 'all 0.2s ease',
+        '&:hover': {
+          borderColor: '#475569',
+          backgroundColor: 'rgba(31, 41, 55, 0.5)',
+        },
+      }}
+    >
       <Avatar
         src={comment.users?.avatar_url || ''}
-        sx={{ width: 32, height: 32, backgroundColor: '#2d2d2d' }}
+        sx={{
+          width: { xs: 28, sm: 32 },
+          height: { xs: 28, sm: 32 },
+          backgroundColor: '#ff9500',
+          fontWeight: 700,
+          fontSize: 'clamp(0.65rem, 0.8vw, 0.75rem)',
+          flexShrink: 0,
+        }}
       >
-        {comment.users?.full_name?.[0] || 'U'}
+        {comment.users?.full_name?.[0]?.toUpperCase() ||
+          comment.users?.email?.[0]?.toUpperCase() ||
+          'U'}
       </Avatar>
-      <Box sx={{ flex: 1 }}>
-        <Typography variant="subtitle2" sx={{ fontWeight: 'bold', color: '#fff' }}>
+      <Box sx={{ flex: 1, minWidth: 0 }}>
+        <Typography
+          variant="subtitle2"
+          sx={{
+            fontWeight: 700,
+            color: '#f1f5f9',
+            fontSize: 'clamp(0.8rem, 0.9vw, 0.875rem)',
+          }}
+        >
           {comment.users?.full_name || 'Anonymous'}
         </Typography>
-        <Typography variant="body2" sx={{ color: '#e2e8f0', mt: 0.5 }}>{comment.content}</Typography>
-        <Typography variant="caption" sx={{ color: '#a0aec0', display: 'block', mt: 0.5 }}>
+        <Typography
+          variant="body2"
+          sx={{
+            color: '#cbd5e1',
+            mt: 0.5,
+            fontSize: 'clamp(0.8rem, 0.9vw, 0.875rem)',
+            wordBreak: 'break-word',
+            whiteSpace: 'pre-wrap',
+            overflowWrap: 'break-word',
+            lineHeight: 1.5,
+          }}
+        >
+          {comment.content}
+        </Typography>
+        <Typography
+          variant="caption"
+          sx={{
+            color: '#94a3b8',
+            display: 'block',
+            mt: 0.5,
+            fontSize: 'clamp(0.65rem, 0.75vw, 0.7rem)',
+          }}
+        >
           {new Date(comment.created_at).toLocaleString('en-IN')}
         </Typography>
       </Box>
       {(user?.id === comment.user_id || isAdmin) && (
         <IconButton
           size="small"
-          sx={{ color: '#ef4444' }}
+          sx={{
+            color: '#ef4444',
+            transition: 'all 0.2s ease',
+            '&:hover': {
+              backgroundColor: 'rgba(239, 68, 68, 0.1)',
+            },
+          }}
           onClick={() => onDelete(comment.id)}
         >
           <DeleteIcon fontSize="small" />

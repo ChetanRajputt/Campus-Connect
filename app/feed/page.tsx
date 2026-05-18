@@ -5,7 +5,8 @@
 // This is the feed page where all posts are displayed
 
 import { useEffect, useState } from 'react';
-import { Container, Box, CircularProgress, Typography } from '@mui/material';
+import { Container, Box, CircularProgress, Typography, TextField, InputAdornment } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 import CreatePost from '@/components/CreatePost';
 import PostCard from '@/components/PostCard';
 import ProtectedRoute from '@/components/ProtectedRoute';
@@ -14,6 +15,13 @@ import { supabase, Post, User } from '@/utils/supabase';
 export default function Feed() {
   const [posts, setPosts] = useState<(Post & { users?: User })[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredPosts = posts.filter(post => 
+    post.content?.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    post.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    post.users?.full_name?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   useEffect(() => {
     fetchPosts();
@@ -42,51 +50,153 @@ export default function Feed() {
 
   return (
     <ProtectedRoute>
-      <Box sx={{ minHeight: '100vh', py: 4 }}>
-        <Container maxWidth="md">
-          {/* Header tabs (Following / Featured / Rising) */}
-          <Box sx={{ display: 'flex', gap: 3, mb: 3, px: 1, borderBottom: '1px solid #2d2d2d', pb: 2 }}>
-             <Typography sx={{ fontWeight: 700, display: 'flex', alignItems: 'center', gap: 1, cursor: 'pointer', color: '#fff' }}>
-                <span style={{ color: '#f44336' }}>❤️</span> Following
-             </Typography>
-             <Typography sx={{ fontWeight: 600, display: 'flex', alignItems: 'center', gap: 1, cursor: 'pointer', color: '#a0aec0', '&:hover': { color: '#fff' } }}>
-                🔥 Featured
-             </Typography>
-             <Typography sx={{ fontWeight: 600, display: 'flex', alignItems: 'center', gap: 1, cursor: 'pointer', color: '#a0aec0', '&:hover': { color: '#fff' } }}>
-                🚀 Rising
-             </Typography>
+      <Box sx={{ minHeight: '100vh', width: '100%', backgroundColor: '#0f172a' }}>
+        <Container maxWidth="md" sx={{ px: { xs: 1, sm: 2, md: 3 }, py: { xs: 2, md: 4 } }}>
+          {/* Feed Tabs */}
+          <Box
+            sx={{
+              display: 'flex',
+              gap: { xs: 2, sm: 3 },
+              mb: { xs: 2, md: 4 },
+              overflowX: 'auto',
+              pb: 2,
+              borderBottom: '1px solid #334155',
+              scrollBehavior: 'smooth',
+              '&::-webkit-scrollbar': {
+                height: '4px',
+              },
+              '&::-webkit-scrollbar-track': {
+                background: '#1e293b',
+              },
+              '&::-webkit-scrollbar-thumb': {
+                background: '#475569',
+                borderRadius: '4px',
+              },
+            }}
+          >
+            {[
+              { label: '❤️ Following', id: 'following' },
+              { label: '🔥 Featured', id: 'featured' },
+              { label: '🚀 Rising', id: 'rising' },
+            ].map((tab) => (
+              <Typography
+                key={tab.id}
+                sx={{
+                  fontWeight: 700,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 0.5,
+                  cursor: 'pointer',
+                  color: tab.id === 'following' ? '#ff9500' : '#cbd5e1',
+                  fontSize: 'clamp(0.875rem, 1vw, 1rem)',
+                  whiteSpace: 'nowrap',
+                  transition: 'all 0.2s ease',
+                  pb: 2,
+                  borderBottom: tab.id === 'following' ? '2px solid #ff9500' : 'none',
+                  '&:hover': {
+                    color: '#f1f5f9',
+                  },
+                }}
+              >
+                {tab.label}
+              </Typography>
+            ))}
           </Box>
 
-          <Box>
-            <CreatePost onPostCreated={fetchPosts} />
-
-            {loading ? (
-              <Box sx={{ textAlign: 'center', py: 8 }}>
-                <CircularProgress color="primary" />
-                <Typography sx={{ mt: 2, color: '#a0aec0' }}>Loading posts...</Typography>
-              </Box>
-            ) : posts.length > 0 ? (
-              <Box sx={{ mt: 4 }}>
-                {posts.map((post) => (
-                  <PostCard
-                    key={post.id}
-                    post={post}
-                    onDelete={handlePostDeleted}
-                    onRefresh={fetchPosts}
-                  />
-                ))}
-              </Box>
-            ) : (
-              <Box sx={{ textAlign: 'center', py: 8 }}>
-                <Typography variant="h6" sx={{ color: '#a0aec0', mb: 1 }}>
-                  कोई posts नहीं | No posts yet
-                </Typography>
-                <Typography variant="body2" sx={{ color: '#666' }}>
-                  Be the first to create a post! 🚀
-                </Typography>
-              </Box>
-            )}
+          {/* Search Box */}
+          <Box sx={{ mb: { xs: 2, md: 3 } }}>
+            <TextField
+              fullWidth
+              placeholder="Search posts, users..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              variant="outlined"
+              size="small"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon sx={{ color: '#94a3b8', fontSize: 'clamp(1.25rem, 1.5vw, 1.5rem)' }} />
+                  </InputAdornment>
+                ),
+                sx: {
+                  backgroundColor: '#1e293b',
+                  borderRadius: '8px',
+                  fontSize: 'clamp(0.875rem, 1vw, 1rem)',
+                  pl: 1,
+                },
+              }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  borderColor: '#334155',
+                  '&:hover fieldset': { borderColor: '#475569' },
+                  '&.Mui-focused fieldset': { borderColor: '#ff9500', borderWidth: '2px' },
+                },
+                '& .MuiOutlinedInput-input::placeholder': {
+                  color: '#64748b',
+                  opacity: 1,
+                },
+              }}
+            />
           </Box>
+
+          {/* Create Post */}
+          <CreatePost onPostCreated={fetchPosts} />
+
+          {/* Posts List */}
+          {loading ? (
+            <Box sx={{ textAlign: 'center', py: { xs: 6, md: 8 } }}>
+              <CircularProgress
+                sx={{
+                  color: '#ff9500',
+                  fontSize: 'clamp(2rem, 3vw, 3rem)',
+                }}
+              />
+              <Typography
+                sx={{
+                  mt: 2,
+                  color: '#94a3b8',
+                  fontSize: 'clamp(0.875rem, 1vw, 1rem)',
+                }}
+              >
+                Loading posts...
+              </Typography>
+            </Box>
+          ) : filteredPosts.length > 0 ? (
+            <Box sx={{ mt: { xs: 2, md: 4 } }}>
+              {filteredPosts.map((post) => (
+                <PostCard
+                  key={post.id}
+                  post={post}
+                  onDelete={handlePostDeleted}
+                  onRefresh={fetchPosts}
+                />
+              ))}
+            </Box>
+          ) : (
+            <Box sx={{ textAlign: 'center', py: { xs: 6, md: 8 } }}>
+              <Typography
+                variant="h6"
+                sx={{
+                  color: '#94a3b8',
+                  mb: 1,
+                  fontSize: 'clamp(1rem, 1.5vw, 1.25rem)',
+                }}
+              >
+                {searchQuery ? 'No posts found' : 'No posts yet'}
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{
+                  color: '#64748b',
+                  fontSize: 'clamp(0.8rem, 0.9vw, 0.875rem)',
+                }}
+              >
+                {searchQuery
+                  ? 'Try adjusting your search'
+                  : 'Be the first to create a post! 🚀'}
+              </Typography>
+            </Box>
+          )}
         </Container>
       </Box>
     </ProtectedRoute>

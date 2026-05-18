@@ -30,8 +30,9 @@ CREATE TABLE posts (
   image_url VARCHAR(500),
   likes_count INTEGER DEFAULT 0,
   comments_count INTEGER DEFAULT 0,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  is_announcement BOOLEAN DEFAULT false,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
 -- 3. LIKES TABLE
@@ -53,6 +54,33 @@ CREATE TABLE comments (
   content TEXT NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 5. GROUPS TABLE
+CREATE TABLE groups (
+  id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  description TEXT,
+  created_by UUID REFERENCES users(id) ON DELETE CASCADE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+-- 6. GROUP MEMBERS TABLE
+CREATE TABLE group_members (
+  id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+  group_id UUID REFERENCES groups(id) ON DELETE CASCADE,
+  user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+  joined_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
+  UNIQUE(group_id, user_id)
+);
+
+-- 7. GROUP MESSAGES TABLE
+CREATE TABLE group_messages (
+  id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+  group_id UUID REFERENCES groups(id) ON DELETE CASCADE,
+  sender_id UUID REFERENCES users(id) ON DELETE CASCADE,
+  content TEXT NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
 -- ============================================================================

@@ -103,142 +103,268 @@ export default function Profile() {
 
   return (
     <ProtectedRoute>
-      <Box sx={{ minHeight: '100vh', pb: 8 }}>
+      <Box sx={{ minHeight: '100vh', backgroundColor: '#0f172a', pb: { xs: 8, md: 4 } }}>
         {/* Banner Section */}
-        <Box 
-          sx={{ 
-            height: 250, 
-            width: '100%', 
-            backgroundColor: '#1a1a1a',
-            backgroundImage: (bannerFile ? `url(${URL.createObjectURL(bannerFile)})` : (user as any)?.banner_url ? `url(${(user as any).banner_url})` : 'none'),
+        <Box
+          sx={{
+            height: { xs: 150, sm: 200, md: 250 },
+            width: '100%',
+            backgroundColor: '#1e293b',
+            backgroundImage: bannerFile
+              ? `url(${URL.createObjectURL(bannerFile)})`
+              : (user as any)?.banner_url
+                ? `url(${(user as any).banner_url})`
+                : 'linear-gradient(135deg, #ff9500 0%, #f57c00 100%)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             position: 'relative',
-            borderBottom: '1px solid #2d2d2d'
+            borderBottom: '1px solid #334155',
           }}
         >
           <Button
             component="label"
             sx={{
               position: 'absolute',
-              bottom: 16,
-              right: 16,
-              backgroundColor: 'rgba(0,0,0,0.6)',
+              bottom: { xs: 8, md: 16 },
+              right: { xs: 8, md: 16 },
+              backgroundColor: 'rgba(0, 0, 0, 0.6)',
               color: '#fff',
-              '&:hover': { backgroundColor: 'rgba(0,0,0,0.8)' }
+              fontSize: 'clamp(0.75rem, 0.9vw, 0.875rem)',
+              transition: 'all 0.2s ease',
+              '&:hover': {
+                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+              },
             }}
           >
             📷 Edit Cover
-            <input type="file" hidden accept="image/*" onChange={(e) => e.target.files?.[0] && setBannerFile(e.target.files[0])} />
+            <input
+              type="file"
+              hidden
+              accept="image/*"
+              onChange={(e) =>
+                e.target.files?.[0] && setBannerFile(e.target.files[0])
+              }
+            />
           </Button>
         </Box>
 
-        <Container maxWidth="md" sx={{ px: { xs: 2, md: 4 } }}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', mt: -8, mb: 4 }}>
-            <Box sx={{ position: 'relative' }}>
+        <Container
+          maxWidth="md"
+          sx={{ px: { xs: 1, sm: 2, md: 3 }, py: { xs: 2, md: 4 } }}
+        >
+          {/* Profile Header */}
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: { xs: 'flex-start', sm: 'flex-end' },
+              mt: { xs: -10, sm: -14, md: -20 },
+              mb: { xs: 2, md: 4 },
+              gap: { xs: 2, md: 4 },
+              flexWrap: 'wrap',
+            }}
+          >
+            {/* Avatar */}
+            <Box sx={{ position: 'relative', flexShrink: 0 }}>
               <Avatar
-                src={avatarFile ? URL.createObjectURL(avatarFile) : user?.avatar_url || ''}
-                sx={{ 
-                  width: 140, 
-                  height: 140, 
-                  border: '4px solid #121212',
-                  backgroundColor: '#2d2d2d',
-                  fontSize: '3rem',
-                  fontWeight: 700
+                src={
+                  avatarFile
+                    ? URL.createObjectURL(avatarFile)
+                    : user?.avatar_url || ''
+                }
+                sx={{
+                  width: { xs: 100, sm: 120, md: 140 },
+                  height: { xs: 100, sm: 120, md: 140 },
+                  border: '4px solid #0f172a',
+                  backgroundColor: '#ff9500',
+                  fontSize: 'clamp(2rem, 4vw, 3rem)',
+                  fontWeight: 700,
                 }}
               >
-                {user?.full_name?.[0] || 'U'}
+                {user?.full_name?.[0]?.toUpperCase() ||
+                  user?.email?.[0]?.toUpperCase() ||
+                  'U'}
               </Avatar>
-              <IconButton 
+              <IconButton
                 component="label"
-                sx={{ 
-                  position: 'absolute', 
-                  bottom: 8, 
-                  right: 8, 
-                  backgroundColor: '#FF9800', 
-                  color: '#000',
-                  '&:hover': { backgroundColor: '#F57C00' },
-                  width: 36,
-                  height: 36,
+                sx={{
+                  position: 'absolute',
+                  bottom: 0,
+                  right: 0,
+                  backgroundColor: '#ff9500',
+                  color: '#0f172a',
+                  width: { xs: 32, sm: 40 },
+                  height: { xs: 32, sm: 40 },
+                  transition: 'all 0.2s ease',
+                  '&:hover': {
+                    backgroundColor: '#f59e0b',
+                    transform: 'scale(1.1)',
+                  },
                 }}
               >
-                <Typography sx={{ fontSize: '1.2rem' }}>📷</Typography>
-                <input type="file" hidden accept="image/*" onChange={(e) => e.target.files?.[0] && setAvatarFile(e.target.files[0])} />
+                <Typography sx={{ fontSize: 'clamp(0.9rem, 1.2vw, 1.25rem)' }}>
+                  📷
+                </Typography>
+                <input
+                  type="file"
+                  hidden
+                  accept="image/*"
+                  onChange={(e) =>
+                    e.target.files?.[0] && setAvatarFile(e.target.files[0])
+                  }
+                />
               </IconButton>
             </Box>
-            
+
+            {/* Save Button */}
             <Button
               variant="contained"
               onClick={handleUpdateProfile}
               disabled={loading}
               sx={{
-                backgroundColor: '#FF9800',
-                color: '#000',
-                fontWeight: 700,
-                borderRadius: '20px',
-                px: 4,
-                '&:hover': { backgroundColor: '#F57C00' },
+                fontSize: 'clamp(0.875rem, 1vw, 1rem)',
+                py: { xs: 1, sm: 1.5 },
+                px: { xs: 2, sm: 3 },
               }}
             >
-              {loading ? <CircularProgress size={24} sx={{ color: '#000' }} /> : 'Save Profile'}
+              {loading ? <CircularProgress size={20} /> : 'Save Profile'}
             </Button>
           </Box>
 
+          {/* User Info */}
           <Box sx={{ mb: 4 }}>
-            <Typography variant="h5" sx={{ fontWeight: 800, color: '#fff' }}>
+            <Typography
+              variant="h5"
+              sx={{
+                fontWeight: 800,
+                color: '#f1f5f9',
+                fontSize: 'clamp(1.25rem, 2vw, 1.5rem)',
+                mb: 0.5,
+              }}
+            >
               {user?.full_name || 'User Name'}
             </Typography>
-            <Typography variant="body1" sx={{ color: '#a0aec0', mb: 2 }}>
-              @{user?.email?.split('@')[0]}
+            <Typography
+              variant="body1"
+              sx={{
+                color: '#94a3b8',
+                fontSize: 'clamp(0.875rem, 1vw, 1rem)',
+                mb: 2,
+              }}
+            >
+              @{user?.email?.split('@')[0] || 'user'}
             </Typography>
-            
-            {error && <Alert severity="error" sx={{ mb: 2, backgroundColor: 'rgba(244, 67, 54, 0.1)', color: '#f44336' }}>{error}</Alert>}
-            {success && <Alert severity="success" sx={{ mb: 2, backgroundColor: 'rgba(76, 175, 80, 0.1)', color: '#4caf50' }}>{success}</Alert>}
+
+            {error && (
+              <Alert
+                severity="error"
+                sx={{
+                  mb: 2,
+                  backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                  color: '#fca5a5',
+                  fontSize: 'clamp(0.8rem, 0.9vw, 0.875rem)',
+                }}
+              >
+                {error}
+              </Alert>
+            )}
+            {success && (
+              <Alert
+                severity="success"
+                sx={{
+                  mb: 2,
+                  backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                  color: '#86efac',
+                  fontSize: 'clamp(0.8rem, 0.9vw, 0.875rem)',
+                }}
+              >
+                {success}
+              </Alert>
+            )}
           </Box>
 
-          <Box sx={{ 
-            backgroundColor: '#161616', 
-            border: '1px solid #2d2d2d', 
-            borderRadius: '12px', 
-            p: 4 
-          }}>
-            <Typography variant="h6" sx={{ fontWeight: 700, mb: 3, borderBottom: '1px solid #2d2d2d', pb: 1 }}>
+          {/* Profile Form */}
+          <Box
+            sx={{
+              backgroundColor: '#1e293b',
+              border: '1px solid #334155',
+              borderRadius: '12px',
+              p: { xs: 2, sm: 3, md: 4 },
+              transition: 'all 0.2s ease',
+            }}
+          >
+            <Typography
+              variant="h6"
+              sx={{
+                fontWeight: 700,
+                mb: { xs: 2, md: 3 },
+                borderBottom: '1px solid #334155',
+                pb: 2,
+                fontSize: 'clamp(1rem, 1.5vw, 1.25rem)',
+                color: '#f1f5f9',
+              }}
+            >
               Profile Details
             </Typography>
+
             <form onSubmit={handleUpdateProfile}>
-              <Stack spacing={3}>
+              <Stack spacing={{ xs: 2, md: 3 }}>
+                {/* Full Name */}
                 <TextField
                   fullWidth
                   label="Full Name"
                   name="full_name"
                   value={formData.full_name}
                   onChange={handleInputChange}
-                  InputLabelProps={{ style: { color: '#a0aec0' } }}
-                  InputProps={{ style: { color: '#fff' } }}
+                  variant="outlined"
+                  size="small"
+                  InputLabelProps={{
+                    sx: {
+                      fontSize: 'clamp(0.875rem, 1vw, 1rem)',
+                    },
+                  }}
                 />
 
+                {/* Bio */}
                 <TextField
                   fullWidth
                   label="Bio"
                   name="bio"
                   multiline
-                  rows={4}
+                  rows={3}
                   value={formData.bio}
                   onChange={handleInputChange}
                   placeholder="Tell us about yourself..."
-                  InputLabelProps={{ style: { color: '#a0aec0' } }}
-                  InputProps={{ style: { color: '#fff' } }}
+                  variant="outlined"
+                  size="small"
+                  InputLabelProps={{
+                    sx: {
+                      fontSize: 'clamp(0.875rem, 1vw, 1rem)',
+                    },
+                  }}
                 />
 
-                <Box sx={{ display: 'flex', gap: 3, flexDirection: { xs: 'column', md: 'row' } }}>
+                {/* College, Department, Roll Number */}
+                <Box
+                  sx={{
+                    display: 'grid',
+                    gridTemplateColumns: { xs: '1fr', md: 'repeat(3, 1fr)' },
+                    gap: { xs: 2, md: 3 },
+                  }}
+                >
                   <TextField
                     fullWidth
                     label="College"
                     name="college"
                     value={formData.college}
                     onChange={handleInputChange}
-                    InputLabelProps={{ style: { color: '#a0aec0' } }}
-                    InputProps={{ style: { color: '#fff' } }}
+                    variant="outlined"
+                    size="small"
+                    InputLabelProps={{
+                      sx: {
+                        fontSize: 'clamp(0.875rem, 1vw, 1rem)',
+                      },
+                    }}
                   />
                   <TextField
                     fullWidth
@@ -246,8 +372,13 @@ export default function Profile() {
                     name="department"
                     value={formData.department}
                     onChange={handleInputChange}
-                    InputLabelProps={{ style: { color: '#a0aec0' } }}
-                    InputProps={{ style: { color: '#fff' } }}
+                    variant="outlined"
+                    size="small"
+                    InputLabelProps={{
+                      sx: {
+                        fontSize: 'clamp(0.875rem, 1vw, 1rem)',
+                      },
+                    }}
                   />
                   <TextField
                     fullWidth
@@ -255,8 +386,13 @@ export default function Profile() {
                     name="roll_number"
                     value={formData.roll_number}
                     onChange={handleInputChange}
-                    InputLabelProps={{ style: { color: '#a0aec0' } }}
-                    InputProps={{ style: { color: '#fff' } }}
+                    variant="outlined"
+                    size="small"
+                    InputLabelProps={{
+                      sx: {
+                        fontSize: 'clamp(0.875rem, 1vw, 1rem)',
+                      },
+                    }}
                   />
                 </Box>
               </Stack>

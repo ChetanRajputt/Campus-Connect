@@ -56,77 +56,107 @@ export default function SignUp() {
   };
 
   return (
-    <Box sx={{ background: '#0f0f1e', minHeight: '100vh', display: 'flex', alignItems: 'center', py: 4 }}>
-      <Container maxWidth="sm">
-        <Paper
+    <Box
+      sx={{
+        background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        py: { xs: 2, md: 4 },
+        px: { xs: 1, sm: 2 },
+      }}
+    >
+      <Container maxWidth="sm" sx={{ width: '100%' }}>
+        <Box
           sx={{
-            background: 'linear-gradient(135deg, rgba(26, 26, 46, 0.9) 0%, rgba(22, 33, 62, 0.9) 100%)',
-            border: '1px solid rgba(168, 85, 247, 0.2)',
-            borderRadius: '16px',
-            padding: '40px',
-            boxShadow: '0 8px 32px rgba(168, 85, 247, 0.1)',
+            backgroundColor: '#1e293b',
+            border: '1px solid #334155',
+            borderRadius: '12px',
+            padding: { xs: '1.5rem', sm: '2rem', md: '2.5rem' },
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
           }}
         >
-          <Typography 
-            variant="h4" 
-            component="h1" 
-            gutterBottom 
-            sx={{ 
-              textAlign: 'center', 
-              mb: 1,
-              fontWeight: 700,
-              background: 'linear-gradient(135deg, #a855f7, #ec4899)',
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}
-          >
-            🎓 Join CampusConnect+
-          </Typography>
-          <Typography 
-            variant="body2" 
-            sx={{ 
-              textAlign: 'center', 
-              mb: 3,
-              color: '#a0aec0'
-            }}
-          >
-            Connect with your college community
-          </Typography>
+          {/* Header */}
+          <Box sx={{ textAlign: 'center', mb: { xs: 2, md: 3 } }}>
+            <Box
+              sx={{
+                fontSize: 'clamp(2.5rem, 4vw, 3rem)',
+                mb: 1,
+              }}
+            >
+              🎓
+            </Box>
+            <Typography
+              variant="h5"
+              component="h1"
+              sx={{
+                fontWeight: 800,
+                background: 'linear-gradient(135deg, #ff9500, #f59e0b)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                fontSize: 'clamp(1.5rem, 3vw, 2rem)',
+                mb: 0.5,
+              }}
+            >
+              Join CampusConnect+
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{
+                color: '#94a3b8',
+                fontSize: 'clamp(0.875rem, 1vw, 1rem)',
+              }}
+            >
+              Connect with your college community
+            </Typography>
+          </Box>
 
+          {/* Error Alert */}
           {error && (
-            <Alert 
-              severity="error" 
-              sx={{ 
+            <Alert
+              severity="error"
+              sx={{
                 mb: 2,
                 backgroundColor: 'rgba(239, 68, 68, 0.1)',
                 color: '#fca5a5',
                 border: '1px solid rgba(239, 68, 68, 0.3)',
+                fontSize: 'clamp(0.75rem, 0.9vw, 0.875rem)',
+                '& .MuiAlert-icon': {
+                  fontSize: 'clamp(1rem, 1.5vw, 1.25rem)',
+                },
               }}
             >
               {error}
             </Alert>
           )}
 
+          {/* Form */}
           <form onSubmit={handleSignUp}>
-            <Stack spacing={2.5}>
+            <Stack spacing={{ xs: 1.5, md: 2 }}>
               <TextField
                 label="Full Name"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 fullWidth
                 required
-                placeholder="अपना नाम दर्ज करें"
-                sx={{
-                  '& .MuiOutlinedInput-root': {
-                    color: '#e0e7ff',
-                    '& fieldset': { borderColor: 'rgba(168, 85, 247, 0.2)' },
-                    '&:hover fieldset': { borderColor: 'rgba(168, 85, 247, 0.4)' },
-                    '&.Mui-focused fieldset': { borderColor: '#a855f7' },
+                placeholder="Enter your full name"
+                variant="outlined"
+                size="small"
+                InputLabelProps={{
+                  sx: {
+                    fontSize: 'clamp(0.875rem, 1vw, 1rem)',
                   },
-                  '& .MuiOutlinedInput-input::placeholder': { color: '#666', opacity: 0.7 },
+                }}
+                sx={{
+                  '& .MuiOutlinedInput-input::placeholder': {
+                    color: '#64748b',
+                    opacity: 1,
+                  },
                 }}
               />
+
               <TextField
                 label="Email"
                 type="email"
@@ -134,17 +164,22 @@ export default function SignUp() {
                 onChange={(e) => setEmail(e.target.value)}
                 fullWidth
                 required
-                placeholder="आपका email दर्ज करें"
-                sx={{
-                  '& .MuiOutlinedInput-root': {
-                    color: '#e0e7ff',
-                    '& fieldset': { borderColor: 'rgba(168, 85, 247, 0.2)' },
-                    '&:hover fieldset': { borderColor: 'rgba(168, 85, 247, 0.4)' },
-                    '&.Mui-focused fieldset': { borderColor: '#a855f7' },
+                placeholder="Enter your college email"
+                variant="outlined"
+                size="small"
+                InputLabelProps={{
+                  sx: {
+                    fontSize: 'clamp(0.875rem, 1vw, 1rem)',
                   },
-                  '& .MuiOutlinedInput-input::placeholder': { color: '#666', opacity: 0.7 },
+                }}
+                sx={{
+                  '& .MuiOutlinedInput-input::placeholder': {
+                    color: '#64748b',
+                    opacity: 1,
+                  },
                 }}
               />
+
               <TextField
                 label="Password"
                 type="password"
@@ -152,15 +187,19 @@ export default function SignUp() {
                 onChange={(e) => setPassword(e.target.value)}
                 fullWidth
                 required
-                placeholder="Strong password चुनें"
-                sx={{
-                  '& .MuiOutlinedInput-root': {
-                    color: '#e0e7ff',
-                    '& fieldset': { borderColor: 'rgba(168, 85, 247, 0.2)' },
-                    '&:hover fieldset': { borderColor: 'rgba(168, 85, 247, 0.4)' },
-                    '&.Mui-focused fieldset': { borderColor: '#a855f7' },
+                placeholder="Create a strong password"
+                variant="outlined"
+                size="small"
+                InputLabelProps={{
+                  sx: {
+                    fontSize: 'clamp(0.875rem, 1vw, 1rem)',
                   },
-                  '& .MuiOutlinedInput-input::placeholder': { color: '#666', opacity: 0.7 },
+                }}
+                sx={{
+                  '& .MuiOutlinedInput-input::placeholder': {
+                    color: '#64748b',
+                    opacity: 1,
+                  },
                 }}
               />
 
@@ -168,45 +207,49 @@ export default function SignUp() {
                 type="submit"
                 variant="contained"
                 fullWidth
-                size="large"
                 disabled={loading}
                 sx={{
-                  background: 'linear-gradient(135deg, #a855f7, #ec4899)',
                   mt: 1,
+                  py: { xs: 1, md: 1.5 },
+                  fontSize: 'clamp(0.875rem, 1vw, 1rem)',
                   fontWeight: 700,
-                  py: 1.5,
-                  '&:hover': {
-                    background: 'linear-gradient(135deg, #9333ea, #db2777)',
-                  },
-                  '&:disabled': { opacity: 0.5 },
                 }}
               >
-                {loading ? <CircularProgress size={24} /> : '✨ Create Account'}
+                {loading ? <CircularProgress size={20} /> : '✨ Create Account'}
               </Button>
             </Stack>
           </form>
 
-          <Box sx={{ mt: 3, pt: 3, borderTop: '1px solid rgba(168, 85, 247, 0.1)' }}>
-            <Typography variant="body2" sx={{ textAlign: 'center', color: '#a0aec0', mb: 2 }}>
-              पहले से account है?{' '}
-              <Link href="/auth/login" style={{ color: '#a855f7', textDecoration: 'none', fontWeight: 600 }}>
-                Login करें
-              </Link>
-            </Typography>
-
-            <Alert 
-              severity="info"
+          {/* Login Link */}
+          <Box
+            sx={{
+              mt: { xs: 2, md: 3 },
+              pt: { xs: 2, md: 3 },
+              borderTop: '1px solid #334155',
+              textAlign: 'center',
+            }}
+          >
+            <Typography
               sx={{
-                backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                color: '#93c5fd',
-                border: '1px solid rgba(59, 130, 246, 0.3)',
-                fontSize: '0.85rem',
+                color: '#94a3b8',
+                fontSize: 'clamp(0.8rem, 0.9vw, 0.875rem)',
               }}
             >
-              💡 <strong>Note:</strong> Email verification may take a moment. Check spam folder if needed.
-            </Alert>
+              Already have an account?{' '}
+              <Link
+                href="/auth/login"
+                style={{
+                  color: '#ff9500',
+                  textDecoration: 'none',
+                  fontWeight: 700,
+                }}
+              >
+                Login
+              </Link>
+            </Typography>
           </Box>
-        </Paper>
+        </Box>
+
       </Container>
     </Box>
   );

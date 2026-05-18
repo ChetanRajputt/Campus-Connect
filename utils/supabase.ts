@@ -32,6 +32,7 @@ export interface Post {
   image_url: string | null;
   likes_count: number;
   comments_count: number;
+  is_announcement?: boolean;
   created_at: string;
   updated_at: string;
   users?: User;
@@ -62,4 +63,30 @@ export interface Message {
   created_at: string;
   sender?: User;
   receiver?: User;
+}
+
+export interface Group {
+  id: string;
+  name: string;
+  description: string | null;
+  created_by: string;
+  created_at: string;
+  created_by_user?: User;
+}
+
+export interface GroupMember {
+  id: string;
+  group_id: string;
+  user_id: string;
+  joined_at: string;
+  user?: User;
+}
+
+export interface GroupMessage {
+  id: string;
+  group_id: string;
+  sender_id: string;
+  content: string;
+  created_at: string;
+  sender?: User;
 }

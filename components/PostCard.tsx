@@ -139,110 +139,209 @@ export default function PostCard({ post, onDelete, onRefresh }: PostCardProps) {
   };
 
   return (
-    <Card 
-      sx={{ 
-        mb: 3,
-        backgroundColor: '#161616',
-        border: '1px solid #2d2d2d',
+    <Card
+      sx={{
+        mb: { xs: 2, md: 3 },
+        backgroundColor: '#1e293b',
+        border: '1px solid #334155',
         borderRadius: '12px',
-        transition: 'all 0.3s ease',
+        transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+        overflow: 'hidden',
         '&:hover': {
-          border: '1px solid #404040',
-        }
+          borderColor: '#475569',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
+        },
       }}
     >
-      <CardContent>
+      <CardContent sx={{ p: { xs: 2, sm: 3 } }}>
+        {/* Header */}
         <Box sx={{ display: 'flex', gap: 2, mb: 2, alignItems: 'flex-start' }}>
-          <Avatar 
-            src={post.users?.avatar_url || ''} 
+          <Avatar
+            src={post.users?.avatar_url || ''}
             sx={{
-              backgroundColor: '#2d2d2d',
-              width: 48,
-              height: 48,
+              backgroundColor: '#ff9500',
+              width: { xs: 40, sm: 48 },
+              height: { xs: 40, sm: 48 },
               fontWeight: 700,
+              fontSize: 'clamp(0.875rem, 1.5vw, 1rem)',
+              flexShrink: 0,
             }}
           >
-            {post.users?.full_name?.[0] || 'U'}
+            {post.users?.full_name?.[0]?.toUpperCase() ||
+              post.users?.email?.[0]?.toUpperCase() ||
+              'U'}
           </Avatar>
-          <Box sx={{ flex: 1 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <Typography variant="subtitle2" sx={{ fontWeight: 700, fontSize: '0.95rem', color: '#fff' }}>
+          <Box sx={{ flex: 1, minWidth: 0 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
+              <Typography
+                variant="subtitle2"
+                sx={{
+                  fontWeight: 700,
+                  fontSize: 'clamp(0.875rem, 1vw, 1rem)',
+                  color: '#f1f5f9',
+                }}
+              >
                 {post.users?.full_name || 'Anonymous'}
               </Typography>
               {post.users?.is_admin && (
-                <Box sx={{ 
-                  backgroundColor: 'rgba(255, 152, 0, 0.2)',
-                  color: '#FF9800',
-                  padding: '2px 8px',
-                  borderRadius: '20px',
-                  fontSize: '0.7rem',
-                  fontWeight: 600,
-                }}>
+                <Box
+                  sx={{
+                    backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                    color: '#3b82f6',
+                    padding: '2px 8px',
+                    borderRadius: '20px',
+                    fontSize: '0.65rem',
+                    fontWeight: 700,
+                    whiteSpace: 'nowrap',
+                  }}
+                >
                   ADMIN
                 </Box>
               )}
             </Box>
-            <Typography variant="caption" sx={{ color: '#a0aec0' }}>
+            <Typography
+              variant="caption"
+              sx={{
+                color: '#94a3b8',
+                fontSize: 'clamp(0.65rem, 0.8vw, 0.75rem)',
+              }}
+            >
               {new Date(post.created_at).toLocaleString('en-IN')}
             </Typography>
           </Box>
           {(user?.id === post.user_id || isAdmin) && (
-            <IconButton 
-              size="small" 
+            <IconButton
+              size="small"
               onClick={handleDeletePost}
-              sx={{ color: '#ef4444' }}
+              sx={{
+                color: '#ef4444',
+                transition: 'all 0.2s ease',
+                '&:hover': {
+                  backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                },
+              }}
             >
               <DeleteIcon fontSize="small" />
             </IconButton>
           )}
         </Box>
 
+        {/* Announcement Badge */}
+        {post.is_announcement && (
+          <Box sx={{ mb: 1.5 }}>
+            <Box
+              sx={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                backgroundColor: 'rgba(255, 149, 0, 0.1)',
+                color: '#ff9500',
+                padding: '4px 12px',
+                borderRadius: '20px',
+                fontSize: '0.65rem',
+                fontWeight: 700,
+                border: '1px solid rgba(255, 149, 0, 0.3)',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              📢 ANNOUNCEMENT
+            </Box>
+          </Box>
+        )}
+
+        {/* Title */}
         {post.title && (
-          <Typography 
-            variant="h6" 
-            sx={{ 
-              mb: 1, 
+          <Typography
+            variant="h6"
+            sx={{
+              mb: 1,
               fontWeight: 700,
-              color: '#fff'
+              color: '#f1f5f9',
+              fontSize: 'clamp(1rem, 1.5vw, 1.25rem)',
+              wordBreak: 'break-word',
             }}
           >
             {post.title}
           </Typography>
         )}
-        <Typography variant="body2" sx={{ mb: 2, lineHeight: 1.6, color: '#e2e8f0' }}>
+
+        {/* Content */}
+        <Typography
+          variant="body2"
+          sx={{
+            mb: 2,
+            lineHeight: 1.6,
+            color: '#cbd5e1',
+            fontSize: 'clamp(0.875rem, 1vw, 1rem)',
+            wordBreak: 'break-word',
+            whiteSpace: 'pre-wrap',
+            overflowWrap: 'break-word',
+          }}
+        >
           {post.content}
         </Typography>
 
+        {/* Image */}
         {post.image_url && (
           <Box
             component="img"
             src={post.image_url}
-            sx={{ 
-              width: '100%', 
-              maxHeight: 400, 
-              objectFit: 'cover', 
-              borderRadius: '8px', 
+            alt="Post"
+            sx={{
+              width: '100%',
+              maxHeight: { xs: 300, sm: 400 },
+              objectFit: 'cover',
+              borderRadius: '8px',
               mb: 2,
-              border: '1px solid rgba(168, 85, 247, 0.2)',
+              border: '1px solid #334155',
+              transition: 'all 0.2s ease',
+              cursor: 'pointer',
+              '&:hover': {
+                borderColor: '#475569',
+              },
             }}
           />
         )}
       </CardContent>
 
-      <CardActions sx={{ padding: '12px 16px', gap: 3, borderTop: '1px solid #2d2d2d' }}>
+      {/* Actions */}
+      <CardActions
+        sx={{
+          padding: { xs: '8px 12px', sm: '12px 16px' },
+          gap: { xs: 2, sm: 3 },
+          borderTop: '1px solid #334155',
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'flex-start',
+        }}
+      >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <IconButton 
-            size="small" 
-            onClick={handleLike} 
+          <IconButton
+            size="small"
+            onClick={handleLike}
             onMouseEnter={checkLike}
             sx={{
-              color: liked ? '#FF9800' : '#a0aec0',
-              '&:hover': { color: '#FF9800', backgroundColor: 'rgba(255, 152, 0, 0.1)' }
+              color: liked ? '#ff9500' : '#94a3b8',
+              fontSize: 'clamp(0.875rem, 1vw, 1rem)',
+              transition: 'all 0.2s ease',
+              '&:hover': {
+                color: '#ff9500',
+                backgroundColor: 'rgba(255, 149, 0, 0.1)',
+              },
             }}
           >
-            {liked ? <FavoriteIcon fontSize="small" /> : <FavoriteBorderIcon fontSize="small" />}
+            {liked ? (
+              <FavoriteIcon fontSize="small" />
+            ) : (
+              <FavoriteBorderIcon fontSize="small" />
+            )}
           </IconButton>
-          <Typography variant="caption" sx={{ color: '#a0aec0', fontSize: '0.85rem' }}>
+          <Typography
+            variant="caption"
+            sx={{
+              color: '#94a3b8',
+              fontSize: 'clamp(0.75rem, 0.9vw, 0.85rem)',
+            }}
+          >
             {likesCount}
           </Typography>
         </Box>
@@ -255,44 +354,63 @@ export default function PostCard({ post, onDelete, onRefresh }: PostCardProps) {
               setShowComments(!showComments);
             }}
             sx={{
-              color: showComments ? '#FF9800' : '#a0aec0',
-              '&:hover': { color: '#FF9800', backgroundColor: 'rgba(255, 152, 0, 0.1)' }
+              color: showComments ? '#ff9500' : '#94a3b8',
+              transition: 'all 0.2s ease',
+              '&:hover': {
+                color: '#ff9500',
+                backgroundColor: 'rgba(255, 149, 0, 0.1)',
+              },
             }}
           >
             <CommentIcon fontSize="small" />
           </IconButton>
-          <Typography variant="caption" sx={{ color: '#a0aec0', fontSize: '0.85rem' }}>
+          <Typography
+            variant="caption"
+            sx={{
+              color: '#94a3b8',
+              fontSize: 'clamp(0.75rem, 0.9vw, 0.85rem)',
+            }}
+          >
             {post.comments_count}
           </Typography>
         </Box>
       </CardActions>
 
+      {/* Comments Section */}
       <Collapse in={showComments} timeout="auto" unmountOnExit>
-        <CardContent sx={{ borderTop: '1px solid #2d2d2d', pt: 2 }}>
+        <CardContent sx={{ borderTop: '1px solid #334155', pt: 2 }}>
           <Box sx={{ mb: 2 }}>
-            <Box sx={{ display: 'flex', gap: 1, mb: 1 }}>
+            <Box
+              sx={{
+                display: 'flex',
+                gap: 1,
+                mb: 2,
+                flexDirection: { xs: 'column', sm: 'row' },
+              }}
+            >
               <TextField
                 fullWidth
                 size="small"
                 placeholder="Add a comment..."
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
+                multiline
+                minRows={2}
                 sx={{
+                  fontSize: 'clamp(0.875rem, 1vw, 1rem)',
                   '& .MuiOutlinedInput-root': {
-                    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                  }
+                    backgroundColor: '#0f172a',
+                  },
                 }}
               />
               <Button
                 variant="contained"
-                size="small"
                 onClick={handleAddComment}
                 disabled={!newComment.trim()}
                 sx={{
-                  backgroundColor: '#FF9800',
-                  color: '#000',
-                  '&:hover': { backgroundColor: '#F57C00' },
-                  '&:disabled': { opacity: 0.5 }
+                  whiteSpace: 'nowrap',
+                  alignSelf: { xs: 'flex-end', sm: 'auto' },
+                  minHeight: '40px',
                 }}
               >
                 Post
@@ -300,9 +418,11 @@ export default function PostCard({ post, onDelete, onRefresh }: PostCardProps) {
             </Box>
           </Box>
 
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
             {loadingComments ? (
-              <Typography variant="caption">Loading comments...</Typography>
+              <Typography variant="caption" sx={{ color: '#94a3b8' }}>
+                Loading comments...
+              </Typography>
             ) : comments.length > 0 ? (
               comments.map((comment) => (
                 <Comment
@@ -312,8 +432,8 @@ export default function PostCard({ post, onDelete, onRefresh }: PostCardProps) {
                 />
               ))
             ) : (
-              <Typography variant="caption" color="textSecondary">
-                No comments yet
+              <Typography variant="caption" sx={{ color: '#94a3b8' }}>
+                No comments yet. Be the first to comment!
               </Typography>
             )}
           </Box>

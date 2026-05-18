@@ -5,17 +5,138 @@
   box-sizing: border-box;
 }
 
+/* iOS Safe Area Support */
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 html,
 body {
-  background-color: #f5f5f5;
-  color: #333;
+  background-color: #0f172a;
+  color: #e2e8f0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  /* Safe area for notched devices */
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
 }
 
 a {
   text-decoration: none;
   color: inherit;
+  transition: color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  border: none;
+  font-family: inherit;
 }
 
 button:hover {
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1e293b;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #475569;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* Focus Styles for Accessibility */
+:focus-visible {
+  outline: 2px solid #ff9500;
+  outline-offset: 2px;
+}
+
+/* Responsive Images */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Mobile Touch Optimization */
+input,
+textarea,
+select,
+button {
+  /* Prevent zoom on iOS when input is focused */
+  font-size: 16px;
+  /* Ensure proper touch target size on mobile */
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Prevent layout shift on mobile */
+html {
+  overflow-y: scroll;
+}
+
+/* Smooth transitions for responsive layout changes */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Mobile Viewport Optimization */
+@media (max-width: 640px) {
+  html,
+  body {
+    font-size: 16px;
+  }
+  
+  /* Prevent horizontal scroll on mobile */
+  body {
+    width: 100vw;
+    overflow-x: hidden;
+  }
+}
+
+/* Tablet Optimization */
+@media (min-width: 640px) and (max-width: 1024px) {
+  /* Tablet specific styles can go here */
+}
+
+/* Desktop Optimization */
+@media (min-width: 1024px) {
+  html,
+  body {
+    height: 100%;
+  }
 }
