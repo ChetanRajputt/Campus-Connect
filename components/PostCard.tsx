@@ -35,9 +35,10 @@ interface PostCardProps {
 export default function PostCard({ post, onDelete, onRefresh }: PostCardProps) {
   const { user, isAdmin } = useAuth();
   const [liked, setLiked] = useState(false);
-  const [likesCount, setLikesCount] = useState(post.likes_count);
+  const [likesCount, setLikesCount] = useState(post.likes_count || 0);
   const [showComments, setShowComments] = useState(false);
   const [comments, setComments] = useState<(CommentType & { users?: User })[]>([]);
+  const [commentsCount, setCommentsCount] = useState(post.comments_count || 0);
   const [newComment, setNewComment] = useState('');
   const [loadingComments, setLoadingComments] = useState(false);
 
@@ -64,7 +65,9 @@ export default function PostCard({ post, onDelete, onRefresh }: PostCardProps) {
           .delete()
           .eq('post_id', post.id)
           .eq('user_id', user.id);
-        setLikesCount(likesCount - 1);
+        setLikesCount(prev => prev - 1);
+        // Optional: Update db count directly if RLS allows, but a database trigger is better.
+        supabase.from('posts').update({ likes_count: likesCount - 1 }).eq('id', post.id);
         setLiked(false);
       } else {
         // Like
@@ -72,7 +75,8 @@ export default function PostCard({ post, onDelete, onRefresh }: PostCardProps) {
           post_id: post.id,
           user_id: user.id,
         });
-        setLikesCount(likesCount + 1);
+        setLikesCount(prev => prev + 1);
+        supabase.from('posts').update({ likes_count: likesCount + 1 }).eq('id', post.id);
         setLiked(true);
       }
     } catch (error) {
@@ -113,6 +117,8 @@ export default function PostCard({ post, onDelete, onRefresh }: PostCardProps) {
       if (data) {
         setComments([data, ...comments]);
         setNewComment('');
+        setCommentsCount(prev => prev + 1);
+        supabase.from('posts').update({ comments_count: commentsCount + 1 }).eq('id', post.id);
       }
     } catch (error) {
       console.error('Error adding comment:', error);
@@ -133,6 +139,8 @@ export default function PostCard({ post, onDelete, onRefresh }: PostCardProps) {
     try {
       await supabase.from('comments').delete().eq('id', commentId);
       setComments(comments.filter((c) => c.id !== commentId));
+      setCommentsCount(prev => prev - 1);
+      supabase.from('posts').update({ comments_count: commentsCount - 1 }).eq('id', post.id);
     } catch (error) {
       console.error('Error deleting comment:', error);
     }
@@ -371,7 +379,7 @@ export default function PostCard({ post, onDelete, onRefresh }: PostCardProps) {
               fontSize: 'clamp(0.75rem, 0.9vw, 0.85rem)',
             }}
           >
-            {post.comments_count}
+            {commentsCount}
           </Typography>
         </Box>
       </CardActions>

@@ -14,13 +14,14 @@ export default function BottomNav() {
   const router = useRouter();
   const { user } = useAuth();
 
-  if (!user) return null;
+  const isChatRoom = pathname.startsWith('/groups/') && pathname !== '/groups';
+  
+  if (!user || isChatRoom) return null;
 
   const routes = [
     { label: 'Feed', value: '/feed', icon: <HomeIcon /> },
     { label: 'Create', value: '/create-post', icon: <AddCircleOutlineIcon /> },
     { label: 'Messages', value: '/messages', icon: <ChatIcon /> },
-    { label: 'Alerts', value: '/notifications', icon: <NotificationsIcon /> },
     { label: 'Profile', value: '/profile', icon: <PersonIcon /> },
   ];
 

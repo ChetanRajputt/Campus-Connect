@@ -150,7 +150,7 @@ export default function GroupChat() {
 
   return (
     <ProtectedRoute>
-      <Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#0f172a' }}>
+      <Box sx={{ height: '100dvh', display: 'flex', flexDirection: 'column', backgroundColor: '#0f172a' }}>
         {/* Chat Header */}
         <Box sx={{ 
           p: 2, 
