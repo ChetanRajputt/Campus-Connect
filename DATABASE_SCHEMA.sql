@@ -46,7 +46,7 @@ CREATE TABLE likes (
 );
 
 -- 4. COMMENTS TABLE
--- यह table comments store करेगा
+-- यह table comments store करेगा 12
 CREATE TABLE comments (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
