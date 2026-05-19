@@ -178,7 +178,7 @@ export default function CreatePost({ onPostCreated }: CreatePostProps) {
                 fullWidth
                 placeholder="What's on your mind?"
                 multiline
-                minRows={{ xs: 2, sm: 3 }}
+                minRows={3}
                 maxRows={6}
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
