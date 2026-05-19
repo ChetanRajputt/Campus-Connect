@@ -1,9 +1,5 @@
 'use client';
 
-// components/CreatePost.tsx
-// यह component नया post create करने के लिए है
-// This component allows users to create new posts
-
 import { useState } from 'react';
 import {
   Card,

@@ -1,9 +1,5 @@
 'use client';
 
-// app/profile/page.tsx
-// यह profile page है जहाँ user अपनी profile information edit कर सकता है
-// This is the profile page where users can view and edit their profile
-
 import { useEffect, useState } from 'react';
 import { Container, Box, TextField, Button, Avatar, Stack, Typography, Alert, CircularProgress, IconButton } from '@mui/material';
 import ProtectedRoute from '@/components/ProtectedRoute';

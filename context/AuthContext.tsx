@@ -1,9 +1,5 @@
 'use client';
 
-// context/AuthContext.tsx
-// यह context authentication state को manage करता है
-// This context manages authentication state for the entire app
-
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { supabase, User } from '@/utils/supabase';
 import { Session } from '@supabase/supabase-js';

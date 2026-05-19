@@ -1,9 +1,5 @@
 'use client';
 
-// components/NavBar.tsx
-// यह navigation bar है जो सभी pages में दिखता है
-// This is the navigation bar visible on all pages
-
 import { useAuth } from '@/context/AuthContext';
 import { supabase } from '@/utils/supabase';
 import {

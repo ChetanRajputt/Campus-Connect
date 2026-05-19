@@ -1,9 +1,5 @@
 'use client';
 
-// components/Comment.tsx
-// यह component एक single comment को display करता है
-// This component displays a single comment
-
 import { Box, Typography, Avatar, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Comment as CommentType, User } from '@/utils/supabase';

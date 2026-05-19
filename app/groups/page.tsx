@@ -1,9 +1,5 @@
 'use client';
 
-// app/groups/page.tsx
-// यह page सभी groups की list दिखाता है और नया group बनाने का option देता है
-// This page lists all groups and provides an option to create a new one
-
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { 

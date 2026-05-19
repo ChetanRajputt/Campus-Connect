@@ -1,9 +1,5 @@
 'use client';
 
-// app/auth/login/page.tsx
-// यह login page है जहाँ users अपने account में login कर सकते हैं
-// This is the login page where users can log into their accounts
-
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';

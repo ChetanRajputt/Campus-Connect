@@ -1,7 +1,3 @@
-// app/layout.tsx
-// यह main layout है जो सभी pages को wrap करता है
-// This is the main layout that wraps all pages
-
 import type { Metadata, Viewport } from 'next';
 import ThemeWrapper from '@/components/ThemeWrapper';
 import '@/styles/globals.css';

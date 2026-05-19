@@ -79,49 +79,44 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       {/* Top Bar for Mobile */}
       {isMobile && <TopBar />}
 
-      <Box
-        sx={{
-          display: 'flex',
-          flex: 1,
-          overflow: 'hidden',
-          width: '100%',
-          minHeight: 0,
-        }}
-      >
-        {/* Left Sidebar (Desktop) */}
-        {!isMobile && (
-          <Box
-            sx={{
-              width: { md: 260, lg: 280 },
-              height: '100vh',
-              overflowY: 'auto',
-              borderRight: '1px solid #334155',
-              position: 'sticky',
-              top: 0,
-              flexShrink: 0,
-              paddingTop: 'env(safe-area-inset-top)',
-            }}
-          >
-            <Sidebar />
-          </Box>
-        )}
-
-        {/* Main Content */}
+      {/* Left Sidebar — fixed on desktop */}
+      {!isMobile && (
         <Box
-          component="main"
           sx={{
-            flex: 1,
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: { md: 260, lg: 280 },
+            height: '100vh',
+            borderRight: '1px solid #334155',
+            backgroundColor: '#1e293b',
+            zIndex: 100,
             overflowY: 'auto',
-            overflowX: 'hidden',
-            minWidth: 0,
-            maxWidth: '100%',
-            width: '100%',
-            pb: { xs: 'calc(64px + env(safe-area-inset-bottom))', md: 2 },
-            WebkitOverflowScrolling: 'touch',
+            paddingTop: 'env(safe-area-inset-top)',
+            '&::-webkit-scrollbar': { width: '4px' },
+            '&::-webkit-scrollbar-thumb': { backgroundColor: '#334155', borderRadius: '4px' },
           }}
         >
-          {children}
+          <Sidebar />
         </Box>
+      )}
+
+      {/* Main Content — offset by sidebar width on desktop */}
+      <Box
+        component="main"
+        sx={{
+          flex: 1,
+          ml: { xs: 0, md: '260px', lg: '280px' },
+          overflowY: 'auto',
+          overflowX: 'hidden',
+          minWidth: 0,
+          maxWidth: '100%',
+          width: { xs: '100%', md: 'calc(100% - 260px)', lg: 'calc(100% - 280px)' },
+          pb: { xs: 'calc(64px + env(safe-area-inset-bottom))', md: 2 },
+          WebkitOverflowScrolling: 'touch',
+        }}
+      >
+        {children}
       </Box>
 
       {/* Bottom Navigation (Mobile) */}

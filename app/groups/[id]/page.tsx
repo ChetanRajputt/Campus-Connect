@@ -1,9 +1,5 @@
 'use client';
 
-// app/groups/[id]/page.tsx
-// यह page group chat room है
-// This page is the live group chat room using Supabase Realtime
-
 import { useEffect, useState, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Container, Box, Typography, TextField, IconButton, CircularProgress, Avatar } from '@mui/material';

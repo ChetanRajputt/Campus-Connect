@@ -1,7 +1,3 @@
-// app/page.tsx
-// यह home page है जो authenticated users को feed पर redirect करता है
-// This is the home page that redirects to feed for logged-in users
-
 'use client';
 
 import { useEffect } from 'react';
@@ -37,11 +33,11 @@ export default function Home() {
           🎓 CampusConnect+
         </Typography>
         <Typography variant="h6" color="textSecondary" paragraph>
-          अपने college के साथ connect करें! Connect with your college community!
+          Connect with your college community!
         </Typography>
         <Typography paragraph sx={{ mb: 4 }}>
-          CampusConnect+ एक college-based social media platform है जहाँ आप अपने friends के साथ posts
-          share कर सकते हैं, comments दे सकते हैं, और likes दे सकते हैं।
+          CampusConnect+ is a college-based social media platform where you can share posts,
+          comment, and like content with your friends.
         </Typography>
 
         <Stack direction="row" spacing={2} justifyContent="center">

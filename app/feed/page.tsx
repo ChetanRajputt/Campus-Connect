@@ -1,9 +1,5 @@
 'use client';
 
-// app/feed/page.tsx
-// यह feed page है जहाँ सभी posts दिखते हैं
-// This is the feed page where all posts are displayed
-
 import { useEffect, useState } from 'react';
 import { Container, Box, CircularProgress, Typography, TextField, InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
@@ -51,7 +47,7 @@ export default function Feed() {
   return (
     <ProtectedRoute>
       <Box sx={{ minHeight: '100vh', width: '100%', backgroundColor: '#0f172a' }}>
-        <Container maxWidth="md" sx={{ px: { xs: 1, sm: 2, md: 3 }, py: { xs: 2, md: 4 } }}>
+        <Container maxWidth="sm" sx={{ px: { xs: 0, sm: 2 }, py: { xs: 0, md: 3 }, pb: { xs: '70px', md: '24px' } }}>
 
 
           {/* Search Box */}

@@ -1,9 +1,5 @@
 'use client';
 
-// app/auth/signup/page.tsx
-// यह signup page है जहाँ नए users account बना सकते हैं
-// This is the signup page where new users can create accounts
-
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';

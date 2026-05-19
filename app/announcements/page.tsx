@@ -1,10 +1,5 @@
 'use client';
 
-// app/announcements/page.tsx
-// यह page सिर्फ official announcements दिखाता है
-// This page displays only official announcements
-
-import { useEffect, useState } from 'react';
 import { Container, Box, CircularProgress, Typography, TextField, InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import CreatePost from '@/components/CreatePost';
@@ -111,7 +106,7 @@ export default function Announcements() {
               <Box sx={{ textAlign: 'center', py: 8, backgroundColor: '#161616', borderRadius: 2, border: '1px solid #2d2d2d' }}>
                 <CampaignIcon sx={{ fontSize: 60, color: '#404040', mb: 2 }} />
                 <Typography variant="h6" sx={{ color: '#a0aec0', mb: 1 }}>
-                  कोई announcements नहीं | No announcements yet
+                  No announcements yet
                 </Typography>
                 <Typography variant="body2" sx={{ color: '#666' }}>
                   Official college updates will appear here. 📢

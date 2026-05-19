@@ -1,9 +1,5 @@
 'use client';
 
-// app/admin/page.tsx
-// यह admin panel page है जहाँ admins सभी posts देख सकते हैं और delete कर सकते हैं
-// This is the admin panel where admins can view and delete any post
-
 import { useEffect, useState } from 'react';
 import { Container, Box, CircularProgress, Typography, Alert } from '@mui/material';
 import PostCard from '@/components/PostCard';
@@ -49,7 +45,7 @@ export default function AdminPanel() {
             🔐 Admin Panel
           </Typography>
           <Alert severity="info" sx={{ mb: 3 }}>
-            आप सभी posts को देख और delete कर सकते हैं | You can view and delete all posts
+           You can view and delete all posts
           </Alert>
 
           {loading ? (
@@ -67,7 +63,7 @@ export default function AdminPanel() {
             ))
           ) : (
             <Typography sx={{ textAlign: 'center', py: 4 }}>
-              कोई posts नहीं | No posts to manage
+            No posts to manage
             </Typography>
           )}
         </Box>

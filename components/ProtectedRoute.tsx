@@ -1,9 +1,5 @@
 'use client';
 
-// components/ProtectedRoute.tsx
-// यह component protected routes के लिए है - सिर्फ logged-in users access कर सकते हैं
-// This component protects routes - only logged-in users can access
-
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
