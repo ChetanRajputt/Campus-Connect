@@ -52,56 +52,7 @@ export default function Feed() {
     <ProtectedRoute>
       <Box sx={{ minHeight: '100vh', width: '100%', backgroundColor: '#0f172a' }}>
         <Container maxWidth="md" sx={{ px: { xs: 1, sm: 2, md: 3 }, py: { xs: 2, md: 4 } }}>
-          {/* Feed Tabs */}
-          <Box
-            sx={{
-              display: 'flex',
-              gap: { xs: 2, sm: 3 },
-              mb: { xs: 2, md: 4 },
-              overflowX: 'auto',
-              pb: 2,
-              borderBottom: '1px solid #334155',
-              scrollBehavior: 'smooth',
-              '&::-webkit-scrollbar': {
-                height: '4px',
-              },
-              '&::-webkit-scrollbar-track': {
-                background: '#1e293b',
-              },
-              '&::-webkit-scrollbar-thumb': {
-                background: '#475569',
-                borderRadius: '4px',
-              },
-            }}
-          >
-            {[
-              { label: '❤️ Following', id: 'following' },
-              { label: '🔥 Featured', id: 'featured' },
-              { label: '🚀 Rising', id: 'rising' },
-            ].map((tab) => (
-              <Typography
-                key={tab.id}
-                sx={{
-                  fontWeight: 700,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 0.5,
-                  cursor: 'pointer',
-                  color: tab.id === 'following' ? '#ff9500' : '#cbd5e1',
-                  fontSize: 'clamp(0.875rem, 1vw, 1rem)',
-                  whiteSpace: 'nowrap',
-                  transition: 'all 0.2s ease',
-                  pb: 2,
-                  borderBottom: tab.id === 'following' ? '2px solid #ff9500' : 'none',
-                  '&:hover': {
-                    color: '#f1f5f9',
-                  },
-                }}
-              >
-                {tab.label}
-              </Typography>
-            ))}
-          </Box>
+
 
           {/* Search Box */}
           <Box sx={{ mb: { xs: 2, md: 3 } }}>

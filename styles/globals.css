@@ -118,7 +118,7 @@ html {
 @media (max-width: 640px) {
   html,
   body {
-    font-size: 16px;
+    font-size: 14px;
   }
   
   /* Prevent horizontal scroll on mobile */

@@ -7,8 +7,8 @@ import HomeIcon from '@mui/icons-material/Home';
 import ChatIcon from '@mui/icons-material/Chat';
 import PersonIcon from '@mui/icons-material/Person';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import GroupsIcon from '@mui/icons-material/Groups';
+import CampaignIcon from '@mui/icons-material/Campaign';
 
 export default function BottomNav() {
   const pathname = usePathname();
@@ -21,7 +21,7 @@ export default function BottomNav() {
 
   const routes = [
     { label: 'Feed', value: '/feed', icon: <HomeIcon /> },
-    { label: 'Create', value: '/create-post', icon: <AddCircleOutlineIcon /> },
+    { label: 'Announcements', value: '/announcements', icon: <CampaignIcon /> },
     { label: 'Groups', value: '/groups', icon: <GroupsIcon /> },
     { label: 'Messages', value: '/messages', icon: <ChatIcon /> },
     { label: 'Profile', value: '/profile', icon: <PersonIcon /> },
